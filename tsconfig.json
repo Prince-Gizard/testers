@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "baseUrl": "./",
+    "paths" : {
+      "src/*": ["./src/*"]
+    },
+    "target": "ES6",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2021"
+    ],
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "plugins": [{ "name": "typescript-plugin-css-modules", "options": {
+      "customMatcher": "\\.scss$",
+      "rendererOptions": {
+        "sass": {
+          "includePaths": ["./src/styles"]
+        }
+      }
+    }}]
+  },
+  "include": [
+    "src",
+    "./modules.d.ts"
+  ]
+}

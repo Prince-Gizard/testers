@@ -1,0 +1,9 @@
+{
+  "semi": false,
+  "trailingComma": "all",
+  "singleQuote": false,
+  "tabWidth": 2,
+  "endOfLine": "auto",
+  "importOrder": ["^app\/(.*)$", "^..\/", "^.\/((?!scss).)*$", "scss$"],
+  "importOrderSeparation": true
+}
