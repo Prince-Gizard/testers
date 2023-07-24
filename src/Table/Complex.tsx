@@ -1,3 +1,5 @@
+import { useState } from "react"
+import { useForm } from "react-hook-form"
 import { BiSortAlt2, BiSortDown, BiSortUp } from "react-icons/bi"
 import {
   Row,
@@ -8,10 +10,11 @@ import {
   useSortBy,
   useTable,
 } from "react-table"
+import { Autocomplete, Box, Button, TextField } from "@mui/material"
+import axios from "axios"
 
 // данные
-import { data } from "../data"
-
+// import { data } from "../data"
 // кастомная функция фильтрации, типы фильтрации и компоненты фильтров
 import {
   filterGreaterThanOrEqual,
@@ -159,7 +162,63 @@ export const columns: any = [
   },
 ]
 
+const requests = [
+  { label: "GET" },
+  { label: "POST" },
+  { label: "PUT" },
+  { label: "PATCH" },
+  { label: "DELETE" },
+  { label: "HEAD" },
+  { label: "OPTIONS" },
+]
+
 export default function Complex() {
+  type Posts = {
+    error: null
+    success: boolean
+    object_list: any[]
+  }
+
+  const [posts, setPosts] = useState<any>([])
+  const [error, setError] = useState<any>()
+
+  const data = posts as any[]
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      url: "",
+      method: "",
+      xAuthToken: "",
+    },
+  })
+
+  const handleRequest = () => {
+    axios({
+      method: `${watch("method")}`,
+      url: `${watch("url")}`,
+      headers: {
+        withCredentials: false,
+        "Access-Control-Allow-Origin": "*",
+        "Content-Type": "application/x-www-form-urlencoded",
+        "x-auth-token": `${watch("xAuthToken")}`,
+        "Access-Control-Allow-Headers": "x-auth-token",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+      },
+    })
+      .then((res) => {
+        setPosts(res.data.object_list)
+      })
+      .catch((error) => {
+        setError(error)
+      })
+    setError(false)
+  }
+
   const {
     // обязательные штуки
     getTableProps,
@@ -220,6 +279,44 @@ export default function Complex() {
 
   return (
     <>
+      <Box
+        sx={{
+          display: "flex",
+          p: 1,
+          bgcolor: "background.paper",
+          borderRadius: 1,
+          gap: 1,
+          mx: 14,
+          my: 4,
+        }}
+      >
+        <Autocomplete
+          disablePortal
+          id="requests"
+          options={requests}
+          sx={{ width: 150 }}
+          renderInput={(params) => (
+            <TextField
+              {...register("method", { required: true, maxLength: 10 })}
+              {...params}
+              label="Вид запроса"
+            />
+          )}
+        />
+        <TextField
+          {...register("url")}
+          label="Тело запроса"
+          sx={{ flexGrow: 1 }}
+        />
+        <Button onClick={() => handleRequest()}>Отправить</Button>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", px: 3 }}>
+        <TextField
+          {...register("xAuthToken")}
+          label="x-auth-token"
+          sx={{ flexGrow: 1 }}
+        />
+      </Box>
       <h1>Комплексная таблица</h1>
       <div className="table-wrapper">
         <table {...getTableProps()}>

@@ -2,18 +2,18 @@ import { QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 import { createQueryClient } from "./api/axios"
-import Pivot from "./Table/Pivot"
+import Complex from "./Table/Complex"
 
 export default function App() {
   const queryClient = createQueryClient()
   return (
     <QueryClientProvider client={queryClient}>
-      <Pivot />
+      {/* <Pivot /> */}
       {/* <Sortable /> */}
       {/* <Filterable /> */}
       {/* <Paginated /> */}
       {/* <Selectable /> */}
-      {/* <Complex /> */}
+      <Complex />
       {/* <Example /> */}
       {/* <Material /> */}
       <ReactQueryDevtools initialIsOpen={false} />
