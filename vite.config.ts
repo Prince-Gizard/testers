@@ -25,7 +25,15 @@ export default defineConfig({
     port: 4000,
   },
   build: {
-    outDir: "./build",
+    outDir: "/var/www/mbs/medvedskiynp.dev/web/react_api_test",
+    rollupOptions: {
+      input: {
+        app: "/var/www/mbs/buraevvv.dev/src/AppBundle/Resources/views/ApiTesting/index.html.twig", // default
+      },
+    },
   },
-  base: '',
+
+  base: "",
 })
+// /var/www/mbs/medvedskiynp.dev/src/AppBundle/Resources/views/ApiTesting/index.html.twig
+// /var/www/mbs/medvedskiynp.dev/web/react_api_test
